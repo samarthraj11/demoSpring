@@ -1,8 +1,8 @@
-package com.example.libdraft1.metrics.processors;
+package com.example.libdraft1.metrics;
 
 
-import com.example.libdraft1.calculator.ValueItem;
-import com.example.libdraft1.calculator.ResourceCalculation;
+import com.example.libdraft1.compute.ValueItem;
+import com.example.libdraft1.compute.ResourceCalculation;
 import org.springframework.stereotype.Component;
 
 @Component

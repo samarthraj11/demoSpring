@@ -1,4 +1,4 @@
-package com.example.libdraft1.calculator;
+package com.example.libdraft1.compute;
 
 public class ValueItem {
     public Integer value;

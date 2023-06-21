@@ -1,6 +1,6 @@
-package com.example.libdraft1.calculator;
+package com.example.libdraft1.compute;
 
-import com.example.libdraft1.AvailableResources;
+import com.example.libdraft1.user.AvailableResources;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
-package com.example.libdraft1.metrics.loadaverage;
+package com.example.libdraft1.metrics;
 
-import com.example.libdraft1.calculator.ResourceCalculation;
-import com.example.libdraft1.calculator.ValueItem;
+import com.example.libdraft1.compute.ResourceCalculation;
+import com.example.libdraft1.compute.ValueItem;
 import org.springframework.stereotype.Component;
 
 import java.lang.management.ManagementFactory;

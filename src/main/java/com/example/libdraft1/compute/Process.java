@@ -1,4 +1,4 @@
-package com.example.libdraft1.calculator;
+package com.example.libdraft1.compute;
 
 public enum Process {
     LOAD_AVERAGE("loadAverage"), MEMORY("memory"), PROCESSORS("processors");
