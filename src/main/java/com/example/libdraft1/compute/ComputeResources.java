@@ -6,6 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -30,6 +33,11 @@ class ComputeResources implements AvailableResources {
             logger.error("Unable to compute the resources, possibly due to service mapper begin null.");
         }
         return false;
+    }
+
+    @Override
+    public List<Process> getAllProcess() {
+        return Arrays.asList(Process.values());
     }
 
 }

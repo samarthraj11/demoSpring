@@ -3,6 +3,7 @@ package com.example.libdraft1.user;
 import com.example.libdraft1.compute.Process;
 import com.example.libdraft1.compute.ValueItem;
 
+import java.util.List;
 import java.util.Map;
 
 public interface AvailableResources {
@@ -18,4 +19,12 @@ public interface AvailableResources {
      */
 
     Boolean isResourcesAvailable(Map<Process, ValueItem> requestedResources);
+
+    /**
+     * this function is used to get all the processes that could be
+     * examined for computing the availability of required resources.
+     *
+     * @return List of process that are available to compute
+     */
+    List<Process> getAllProcess();
 }
