@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public class ComputeResources implements AvailableResources {
+class ComputeResources implements AvailableResources {
 
     @Autowired
     public Map<String, ResourceCalculation> serviceMapper;
-    Logger logger = LoggerFactory.getLogger(ComputeResources.class);
+    private Logger logger = LoggerFactory.getLogger(ComputeResources.class);
 
     @Override
     public Boolean isResourcesAvailable(Map<Process, ValueItem> requestedResources) {
@@ -27,7 +27,7 @@ public class ComputeResources implements AvailableResources {
             return isEnoughResourcesAvailable;
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("Unable to compute the resources possible due to null service mapper.");
+            logger.error("Unable to compute the resources, possibly due to service mapper begin null.");
         }
         return false;
     }

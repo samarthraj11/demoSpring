@@ -1,16 +1,20 @@
 package com.example.libdraft1.metrics;
 
 
-import com.example.libdraft1.compute.ValueItem;
 import com.example.libdraft1.compute.ResourceCalculation;
+import com.example.libdraft1.compute.ValueItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-@Component
-public class Processors implements ResourceCalculation {
 
-    Logger logger = LoggerFactory.getLogger(Processors.class);
+@Lazy
+@Component
+class Processors implements ResourceCalculation {
+
+     private Logger logger = LoggerFactory.getLogger(Processors.class);
+
     @Override
     public Boolean calculateResources(ValueItem valueItem) {
         try {
