@@ -6,17 +6,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 @Service
 class ComputeResources implements AvailableResources {
-
+    private final Logger logger = LoggerFactory.getLogger(ComputeResources.class);
     @Autowired
     public Map<String, ResourceCalculation> serviceMapper;
-    private Logger logger = LoggerFactory.getLogger(ComputeResources.class);
 
     @Override
     public Boolean isResourcesAvailable(Map<Process, ValueItem> requestedResources) {
@@ -26,7 +24,7 @@ class ComputeResources implements AvailableResources {
             for (Map.Entry<Process, ValueItem> entry : requestedResources.entrySet()) {
                 isEnoughResourcesAvailable &= serviceMapper.get(entry.getKey().getValue()).calculateResources(entry.getValue());
             }
-            logger.info("Successfully computed the availability of resources");
+            logger.info(": Successfully computed the availability of resources");
             return isEnoughResourcesAvailable;
         } catch (Exception e) {
             e.printStackTrace();

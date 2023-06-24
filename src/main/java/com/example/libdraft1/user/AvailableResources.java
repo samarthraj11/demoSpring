@@ -16,6 +16,7 @@ public interface AvailableResources {
      *                           which contains required quantity as Integer
      *                           and ResourceUnit which is an enum for the unit.
      * @return true if the requested resources are available, and false otherwise.
+     *
      */
 
     Boolean isResourcesAvailable(Map<Process, ValueItem> requestedResources);

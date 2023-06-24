@@ -13,7 +13,7 @@ import java.lang.management.ManagementFactory;
 @Component
 class LoadAverage implements ResourceCalculation {
 
-    private Logger logger = LoggerFactory.getLogger(LoadAverage.class);
+    private final Logger logger = LoggerFactory.getLogger(LoadAverage.class);
 
     @Override
     public Boolean calculateResources(ValueItem valueItem) {

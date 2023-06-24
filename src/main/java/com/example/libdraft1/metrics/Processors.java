@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 class Processors implements ResourceCalculation {
 
-     private Logger logger = LoggerFactory.getLogger(Processors.class);
+     private final Logger logger = LoggerFactory.getLogger(Processors.class);
 
     @Override
     public Boolean calculateResources(ValueItem valueItem) {

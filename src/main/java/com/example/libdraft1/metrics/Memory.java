@@ -14,7 +14,7 @@ import java.lang.management.MemoryUsage;
 @Component
 class Memory implements ResourceCalculation {
 
-    private Logger logger = LoggerFactory.getLogger(Memory.class);
+    private final Logger logger = LoggerFactory.getLogger(Memory.class);
 
     @Override
     public Boolean calculateResources(ValueItem valueItem) {
