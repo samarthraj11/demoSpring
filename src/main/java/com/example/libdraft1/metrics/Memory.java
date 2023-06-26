@@ -18,16 +18,11 @@ class Memory implements ResourceCalculation {
 
     @Override
     public Boolean calculateResources(ValueItem valueItem) {
-        try {
-            MemoryUsage MemoryUsage = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
-            long availableMemory = MemoryUsage.getInit() - MemoryUsage.getUsed();
-            return (availableMemory / (1024 * 1024)) >= valueItem.value;
+        if(valueItem == null || valueItem.value == null || valueItem.value < 0) return false;
+        MemoryUsage MemoryUsage = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
+        long availableMemory = MemoryUsage.getInit() - MemoryUsage.getUsed();
+        return (availableMemory / (1024 * 1024)) >= valueItem.value;
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("Unable to compute the Memory");
-        }
-        return false;
     }
 }
 

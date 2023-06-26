@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -17,20 +18,29 @@ class ComputeResources implements AvailableResources {
     public Map<String, ResourceCalculation> serviceMapper;
 
     @Override
-    public Boolean isResourcesAvailable(Map<Process, ValueItem> requestedResources) {
+    public ResourceDetails isResourcesAvailable(Map<Process, ValueItem> requestedResources) {
+
+        List<ResourceStatus> resourceStatusList = new ArrayList<>();
+
+        Boolean isEnoughResourcesAvailable = true;
+
         try {
             logger.info("Started the process to check for the availability of resources");
-            Boolean isEnoughResourcesAvailable = true;
+
             for (Map.Entry<Process, ValueItem> entry : requestedResources.entrySet()) {
-                isEnoughResourcesAvailable &= serviceMapper.get(entry.getKey().getValue()).calculateResources(entry.getValue());
+                Boolean processStatus = serviceMapper.get(entry.getKey().getValue()).calculateResources(entry.getValue());
+                isEnoughResourcesAvailable &= processStatus;
+                resourceStatusList.add(new ResourceStatus(entry.getKey(), processStatus));
             }
+
             logger.info(": Successfully computed the availability of resources");
-            return isEnoughResourcesAvailable;
+
         } catch (Exception e) {
             e.printStackTrace();
+            isEnoughResourcesAvailable = false;
             logger.error("Unable to compute the resources, possibly due to service mapper begin null.");
         }
-        return false;
+        return new ResourceDetails(isEnoughResourcesAvailable, resourceStatusList);
     }
 
     @Override
