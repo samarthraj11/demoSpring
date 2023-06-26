@@ -1,8 +1,9 @@
 package com.example.libdraft1.metrics;
 
+import com.example.libdraft1.compute.MetricStatus;
 import com.example.libdraft1.compute.ResourceCalculation;
+import com.example.libdraft1.compute.ResourceUnit;
 import com.example.libdraft1.compute.ValueItem;
-import jakarta.annotation.Nonnull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
@@ -17,10 +18,11 @@ class LoadAverage implements ResourceCalculation {
     private final Logger logger = LoggerFactory.getLogger(LoadAverage.class);
 
     @Override
-    public Boolean calculateResources(ValueItem valueItem) {
-        if (valueItem == null || valueItem.value == null || valueItem.value < 0) return  false;
+    public MetricStatus calculateResources(ValueItem valueItem) {
+        ValueItem dummy = new ValueItem(1);
+        if (valueItem == null || valueItem.value == null || valueItem.value < 0) return new MetricStatus(false, dummy);
         double currentLoadAvg = ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage();
-        return currentLoadAvg >= valueItem.value;
+        return new MetricStatus(currentLoadAvg >= valueItem.value, dummy);
     }
 }
 

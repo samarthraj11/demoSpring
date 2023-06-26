@@ -1,7 +1,7 @@
 package com.example.libdraft1.compute;
 
 public enum Process {
-    LOAD_AVERAGE("loadAverage"), MEMORY("memory"), PROCESSOR("processors");
+    LOAD_AVERAGE("loadAverage"), MEMORY("memory"), PROCESSOR("processor");
 
     private final String value;
 

@@ -1,14 +1,14 @@
 package com.example.libdraft1.compute;
 
 public class ResourceStatus {
-    Process process;
+    String process;
     Boolean status;
 
-    public Process getProcess() {
+    public String getProcess() {
         return process;
     }
 
-    public void setProcess(Process process) {
+    public void setProcess(String process) {
         this.process = process;
     }
 
@@ -20,7 +20,7 @@ public class ResourceStatus {
         this.status = status;
     }
 
-    public ResourceStatus(Process process, Boolean status)
+    public ResourceStatus(String process, Boolean status)
     {
         this.process = process;
         this.status = status;

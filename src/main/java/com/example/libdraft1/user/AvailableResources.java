@@ -28,4 +28,6 @@ public interface AvailableResources {
      * @return List of Process that are available to compute.
      */
     List<Process> getAllProcess();
+
+    //getAllAvailableResources - return processName, valueItem
 }
