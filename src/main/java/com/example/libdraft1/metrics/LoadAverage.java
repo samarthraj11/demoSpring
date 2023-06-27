@@ -2,7 +2,6 @@ package com.example.libdraft1.metrics;
 
 import com.example.libdraft1.compute.MetricStatus;
 import com.example.libdraft1.compute.ResourceCalculation;
-import com.example.libdraft1.compute.ResourceUnit;
 import com.example.libdraft1.compute.ValueItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +18,16 @@ class LoadAverage implements ResourceCalculation {
 
     @Override
     public MetricStatus calculateResources(ValueItem valueItem) {
-        ValueItem dummy = new ValueItem(1);
-        if (valueItem == null || valueItem.value == null || valueItem.value < 0) return new MetricStatus(false, dummy);
+        if (valueItem == null || valueItem.value == null || valueItem.value < 0) {
+            return new MetricStatus(false, valueItem);
+        }
         double currentLoadAvg = ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage();
-        return new MetricStatus(currentLoadAvg >= valueItem.value, dummy);
+        return new MetricStatus(currentLoadAvg >= valueItem.value, new ValueItem((int) currentLoadAvg, valueItem.unit));
+    }
+
+    @Override
+    public ValueItem getAvailableResource() {
+        return null;
     }
 }
 

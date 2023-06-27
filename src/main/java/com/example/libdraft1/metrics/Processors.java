@@ -18,11 +18,17 @@ class Processors implements ResourceCalculation {
 
     @Override
     public MetricStatus calculateResources(ValueItem valueItem) {
-        ValueItem dummy = new ValueItem(1);
-        if (valueItem == null || valueItem.value == null || valueItem.value < 0) return new MetricStatus(false, dummy);
+        if (valueItem == null || valueItem.value == null || valueItem.value < 0) {
+            return new MetricStatus(false, valueItem);
+        }
         int availableProcessors = Runtime.getRuntime().availableProcessors();
-        return new MetricStatus(availableProcessors >= valueItem.value,dummy);
+        return new MetricStatus(availableProcessors >= valueItem.value, new ValueItem(availableProcessors, valueItem.unit));
 
+    }
+
+    @Override
+    public ValueItem getAvailableResource() {
+        return null;
     }
 }
 

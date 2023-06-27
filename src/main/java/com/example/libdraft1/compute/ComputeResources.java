@@ -28,9 +28,9 @@ class ComputeResources implements AvailableResources {
             logger.info("Started the process to check for the availability of resources");
 
             for (Map.Entry<Process, ValueItem> entry : requestedResources.entrySet()) {
-                Boolean processStatus = serviceMapper.get(entry.getKey().getValue()).calculateResources(entry.getValue()).available;
-                isEnoughResourcesAvailable &= processStatus;
-                resourceStatusList.add(new ResourceStatus(entry.getKey().getValue(), processStatus));
+                MetricStatus processStatus = serviceMapper.get(entry.getKey().getValue()).calculateResources(entry.getValue());
+                isEnoughResourcesAvailable &= processStatus.available;
+                resourceStatusList.add(new ResourceStatus(entry.getKey().getValue(), processStatus.available, processStatus.valueItem));
             }
 
             logger.info(": Successfully computed the availability of resources");

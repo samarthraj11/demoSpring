@@ -3,6 +3,13 @@ package com.example.libdraft1.compute;
 public class ResourceStatus {
     String process;
     Boolean status;
+    ValueItem valueItem;
+
+    public ResourceStatus(String process, Boolean status, ValueItem valueItem) {
+        this.process = process;
+        this.status = status;
+        this.valueItem = valueItem;
+    }
 
     public String getProcess() {
         return process;
@@ -20,9 +27,11 @@ public class ResourceStatus {
         this.status = status;
     }
 
-    public ResourceStatus(String process, Boolean status)
-    {
-        this.process = process;
-        this.status = status;
+    public ValueItem getValueItem() {
+        return valueItem;
+    }
+
+    public void setValueItem(ValueItem valueItem) {
+        this.valueItem = valueItem;
     }
 }

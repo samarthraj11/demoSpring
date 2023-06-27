@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import java.lang.invoke.MethodType;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryUsage;
 
@@ -20,12 +19,18 @@ class Memory implements ResourceCalculation {
 
     @Override
     public MetricStatus calculateResources(ValueItem valueItem) {
-        ValueItem dummy = new ValueItem(1);
-        if(valueItem == null || valueItem.value == null || valueItem.value < 0) return  new MetricStatus(false,dummy);
+        if (valueItem == null || valueItem.value == null || valueItem.value < 0) {
+            return new MetricStatus(false, valueItem);
+        }
         MemoryUsage MemoryUsage = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
-        long availableMemory = MemoryUsage.getInit() - MemoryUsage.getUsed();
-        return new MetricStatus(availableMemory / (1024 * 1024) >= valueItem.value,dummy);
+        long availableMemory = (MemoryUsage.getInit() - MemoryUsage.getUsed()) / (1024 * 1024); // to convert bytes to MB
+        return new MetricStatus(availableMemory >= valueItem.value, new ValueItem((int) availableMemory, valueItem.unit));
 
+    }
+
+    @Override
+    public ValueItem getAvailableResource() {
+        return null;
     }
 }
 
