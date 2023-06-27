@@ -2,10 +2,10 @@ package com.example.libdraft1.compute;
 
 public class MetricStatus {
     Boolean available;
-    ValueItem valueItem;
+    AvailableResource availableResource;
 
-    public MetricStatus(Boolean available, ValueItem valueItem) {
+    public MetricStatus(Boolean available, AvailableResource availableResource) {
         this.available = available;
-        this.valueItem = valueItem;
+        this.availableResource = availableResource;
     }
 }

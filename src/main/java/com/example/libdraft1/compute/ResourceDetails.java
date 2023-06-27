@@ -16,15 +16,8 @@ public class ResourceDetails {
         return isResourceAvailable;
     }
 
-    public void setResourceAvailable(Boolean resourceAvailable) {
-        isResourceAvailable = resourceAvailable;
-    }
 
     public List<ResourceStatus> getResourceStatusList() {
         return resourceStatusList;
-    }
-
-    public void setResourceStatusList(List<ResourceStatus> resourceStatusList) {
-        this.resourceStatusList = resourceStatusList;
     }
 }

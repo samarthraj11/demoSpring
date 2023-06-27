@@ -1,22 +1,14 @@
 package com.example.libdraft1.compute;
 
 public class ResourceStatus {
-    String process;
     Boolean status;
-    ValueItem valueItem;
+    String process;
+    AvailableResource availableResource;
 
-    public ResourceStatus(String process, Boolean status, ValueItem valueItem) {
-        this.process = process;
+    public ResourceStatus(Boolean status, String process, AvailableResource availableResource) {
         this.status = status;
-        this.valueItem = valueItem;
-    }
-
-    public String getProcess() {
-        return process;
-    }
-
-    public void setProcess(String process) {
         this.process = process;
+        this.availableResource = availableResource;
     }
 
     public Boolean getStatus() {
@@ -27,11 +19,19 @@ public class ResourceStatus {
         this.status = status;
     }
 
-    public ValueItem getValueItem() {
-        return valueItem;
+    public String getProcess() {
+        return process;
     }
 
-    public void setValueItem(ValueItem valueItem) {
-        this.valueItem = valueItem;
+    public void setProcess(String process) {
+        this.process = process;
+    }
+
+    public AvailableResource getAvailableResource() {
+        return availableResource;
+    }
+
+    public void setAvailableResource(AvailableResource availableResource) {
+        this.availableResource = availableResource;
     }
 }

@@ -2,7 +2,7 @@ package com.example.libdraft1.metrics;
 
 import com.example.libdraft1.compute.MetricStatus;
 import com.example.libdraft1.compute.ResourceCalculation;
-import com.example.libdraft1.compute.ValueItem;
+import com.example.libdraft1.compute.AvailableResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
@@ -15,19 +15,19 @@ import java.lang.management.ManagementFactory;
 class LoadAverage implements ResourceCalculation {
 
     private final Logger logger = LoggerFactory.getLogger(LoadAverage.class);
+    double currentLoadAvg = ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage();
 
     @Override
-    public MetricStatus calculateResources(ValueItem valueItem) {
-        if (valueItem == null || valueItem.value == null || valueItem.value < 0) {
-            return new MetricStatus(false, valueItem);
+    public MetricStatus calculateResources(AvailableResource availableResource) {
+        if (availableResource == null || availableResource.value == null || availableResource.value < 0) {
+            return new MetricStatus(false, availableResource);
         }
-        double currentLoadAvg = ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage();
-        return new MetricStatus(currentLoadAvg >= valueItem.value, new ValueItem((int) currentLoadAvg, valueItem.unit));
+        return new MetricStatus(currentLoadAvg >= availableResource.value, new AvailableResource((int) currentLoadAvg, availableResource.unit));
     }
 
     @Override
-    public ValueItem getAvailableResource() {
-        return null;
+    public AvailableResource getAvailableResource() {
+        return new AvailableResource((int) currentLoadAvg);
     }
 }
 

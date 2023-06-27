@@ -1,6 +1,6 @@
 package com.example.libdraft1.compute;
 
-import com.example.libdraft1.user.AvailableResources;
+import com.example.libdraft1.user.ResourceTasks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-class ComputeResources implements AvailableResources {
+class ComputeResources implements ResourceTasks {
     private final Logger logger = LoggerFactory.getLogger(ComputeResources.class);
     @Autowired
     public Map<String, ResourceCalculation> serviceMapper;
 
     @Override
-    public ResourceDetails isResourcesAvailable(Map<Process, ValueItem> requestedResources) {
+    public ResourceDetails isResourcesAvailable(Map<Process, AvailableResource> requestedResources) {
 
         List<ResourceStatus> resourceStatusList = new ArrayList<>();
 
@@ -27,10 +27,10 @@ class ComputeResources implements AvailableResources {
         try {
             logger.info("Started the process to check for the availability of resources");
 
-            for (Map.Entry<Process, ValueItem> entry : requestedResources.entrySet()) {
-                MetricStatus processStatus = serviceMapper.get(entry.getKey().getValue()).calculateResources(entry.getValue());
-                isEnoughResourcesAvailable &= processStatus.available;
-                resourceStatusList.add(new ResourceStatus(entry.getKey().getValue(), processStatus.available, processStatus.valueItem));
+            for (Map.Entry<Process, AvailableResource> entry : requestedResources.entrySet()) {
+                MetricStatus metricStatus = serviceMapper.get(entry.getKey().getValue()).calculateResources(entry.getValue());
+                isEnoughResourcesAvailable &= metricStatus.available;
+                resourceStatusList.add(new ResourceStatus(metricStatus.available,entry.getKey().getValue(),metricStatus.availableResource));
             }
 
             logger.info(": Successfully computed the availability of resources");
@@ -40,6 +40,7 @@ class ComputeResources implements AvailableResources {
             isEnoughResourcesAvailable = false;
             logger.error("Unable to compute the resources, possibly due to service mapper begin null.");
         }
+        System.out.println(new ResourceDetails(isEnoughResourcesAvailable, resourceStatusList));
         return new ResourceDetails(isEnoughResourcesAvailable, resourceStatusList);
     }
 
@@ -48,4 +49,14 @@ class ComputeResources implements AvailableResources {
         return Arrays.asList(Process.values());
     }
 
+    @Override
+    public List<AvailableMetric> getAllResources() {
+        List<AvailableMetric> availableMetricList = new ArrayList<>();
+        for (Map.Entry<String, ResourceCalculation> entry : serviceMapper.entrySet())
+        {
+            AvailableMetric availableMetric = new AvailableMetric(entry.getKey(),entry.getValue().getAvailableResource());
+            availableMetricList.add(availableMetric);
+        }
+        return availableMetricList;
+    }
 }

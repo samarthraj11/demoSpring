@@ -1,13 +1,14 @@
 package com.example.libdraft1.user;
 
+import com.example.libdraft1.compute.AvailableMetric;
 import com.example.libdraft1.compute.Process;
 import com.example.libdraft1.compute.ResourceDetails;
-import com.example.libdraft1.compute.ValueItem;
+import com.example.libdraft1.compute.AvailableResource;
 
 import java.util.List;
 import java.util.Map;
 
-public interface AvailableResources {
+public interface ResourceTasks {
 
     /**
      * The user of this interface has precise control for
@@ -16,10 +17,12 @@ public interface AvailableResources {
      * @param requestedResources consists of Process, and ValueItem
      *                           which contains required quantity as Integer
      *                           and ResourceUnit which is an enum for the unit.
-     * @return true if the requested resources are available, and false otherwise.
+     * @return complete details for the availability of the requested resources
+     * which consists a boolean stating true, if resources are present and false otherwise
+     * And a list of AvailableMetrics consisting of process and its value.
      */
+    ResourceDetails isResourcesAvailable(Map<Process, AvailableResource> requestedResources);
 
-    ResourceDetails isResourcesAvailable(Map<Process, ValueItem> requestedResources);
 
     /**
      * this function is used to get all the processes that could be
@@ -29,5 +32,13 @@ public interface AvailableResources {
      */
     List<Process> getAllProcess();
 
-    //getAllAvailableResources - return processName, valueItem
+
+    /**
+     * this function is used to get all the available quantity of
+     * all the available metrics.
+     *
+     * @return List of Available metrics which consists of process and
+     * its value.
+     */
+    List<AvailableMetric> getAllResources();
 }

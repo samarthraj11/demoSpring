@@ -1,10 +1,13 @@
 package com.example.libdraft1.compute;
 
-public class ValueItem {
+public class AvailableResource {
     public Integer value;
     public ResourceUnit unit;
+    public AvailableResource(Integer value) {
+        this.value = value;
+    }
 
-    public ValueItem(Integer value, ResourceUnit unit) {
+    public AvailableResource(Integer value, ResourceUnit unit) {
         this.value = value;
         this.unit = unit;
     }
@@ -23,9 +26,5 @@ public class ValueItem {
 
     public void setUnit(ResourceUnit unit) {
         this.unit = unit;
-    }
-
-    public ValueItem(Integer value) {
-        this.value = value;
     }
 }
