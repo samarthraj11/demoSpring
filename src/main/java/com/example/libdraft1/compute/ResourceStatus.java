@@ -3,12 +3,12 @@ package com.example.libdraft1.compute;
 public class ResourceStatus {
     Boolean status;
     String process;
-    AvailableResource availableResource;
+    Resource resource;
 
-    public ResourceStatus(Boolean status, String process, AvailableResource availableResource) {
+    public ResourceStatus(Boolean status, String process, Resource resource) {
         this.status = status;
         this.process = process;
-        this.availableResource = availableResource;
+        this.resource = resource;
     }
 
     public Boolean getStatus() {
@@ -27,11 +27,11 @@ public class ResourceStatus {
         this.process = process;
     }
 
-    public AvailableResource getAvailableResource() {
-        return availableResource;
+    public Resource getAvailableResource() {
+        return resource;
     }
 
-    public void setAvailableResource(AvailableResource availableResource) {
-        this.availableResource = availableResource;
+    public void setAvailableResource(Resource resource) {
+        this.resource = resource;
     }
 }

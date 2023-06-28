@@ -3,7 +3,7 @@ package com.example.libdraft1.user;
 import com.example.libdraft1.compute.AvailableMetric;
 import com.example.libdraft1.compute.Process;
 import com.example.libdraft1.compute.ResourceDetails;
-import com.example.libdraft1.compute.AvailableResource;
+import com.example.libdraft1.compute.Resource;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ public interface ResourceTasks {
      * which consists a boolean stating true, if resources are present and false otherwise
      * And a list of AvailableMetrics consisting of process and its value.
      */
-    ResourceDetails isResourcesAvailable(Map<Process, AvailableResource> requestedResources);
+    ResourceDetails isResourcesAvailable(Map<Process, Resource> requestedResources);
 
 
     /**

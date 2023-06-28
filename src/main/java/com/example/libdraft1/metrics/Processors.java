@@ -3,7 +3,7 @@ package com.example.libdraft1.metrics;
 
 import com.example.libdraft1.compute.MetricStatus;
 import com.example.libdraft1.compute.ResourceCalculation;
-import com.example.libdraft1.compute.AvailableResource;
+import com.example.libdraft1.compute.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
@@ -19,16 +19,16 @@ class Processors implements ResourceCalculation {
     int availableProcessors = Runtime.getRuntime().availableProcessors();
 
     @Override
-    public MetricStatus calculateResources(AvailableResource availableResource) {
-        if (availableResource == null || availableResource.value == null || availableResource.value < 0) {
-            return new MetricStatus(false, availableResource);
+    public MetricStatus calculateResources(Resource resource) {
+        if (resource == null || resource.value == null || resource.value < 0) {
+            return new MetricStatus(false, resource);
         }
-        return new MetricStatus(availableProcessors >= availableResource.value, new AvailableResource(availableProcessors, availableResource.unit));
+        return new MetricStatus(availableProcessors >= resource.value, new Resource(availableProcessors, resource.unit));
     }
 
     @Override
-    public AvailableResource getAvailableResource() {
-        return new AvailableResource(availableProcessors);
+    public Resource getAvailableResource() {
+        return new Resource(availableProcessors);
     }
 }
 

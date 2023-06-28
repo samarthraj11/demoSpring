@@ -2,19 +2,19 @@ package com.example.libdraft1.compute;
 
 public class AvailableMetric {
     String process;
-    AvailableResource availableResource;
+    Resource resource;
 
-    public AvailableMetric(String process, AvailableResource availableResource) {
+    public AvailableMetric(String process, Resource resource) {
         this.process = process;
-        this.availableResource = availableResource;
+        this.resource = resource;
     }
 
     public String getProcess() {
         return process;
     }
 
-    public AvailableResource getAvailableResource() {
-        return availableResource;
+    public Resource getAvailableResource() {
+        return resource;
     }
 
 }

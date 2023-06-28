@@ -2,10 +2,18 @@ package com.example.libdraft1.compute;
 
 public class MetricStatus {
     Boolean available;
-    AvailableResource availableResource;
+    Resource resource;
 
-    public MetricStatus(Boolean available, AvailableResource availableResource) {
+    public MetricStatus(Boolean available, Resource resource) {
         this.available = available;
-        this.availableResource = availableResource;
+        this.resource = resource;
+    }
+
+    @Override
+    public String toString() {
+        return "MetricStatus{" +
+                "available=" + available +
+                ", resource=" + resource +
+                '}';
     }
 }

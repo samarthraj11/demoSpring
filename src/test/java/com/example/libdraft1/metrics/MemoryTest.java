@@ -1,9 +1,12 @@
 package com.example.libdraft1.metrics;
 
 import com.example.libdraft1.compute.ResourceUnit;
-import com.example.libdraft1.compute.AvailableResource;
+import com.example.libdraft1.compute.Resource;
+import com.example.libdraft1.metrics.provider.IMemoryProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.lang.management.MemoryUsage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,12 +26,13 @@ class MemoryTest {
 
     @Test
     void ValueItem_Value_IsNull_ReturnFalse() {
-        assertEquals(memory.calculateResources(new AvailableResource(null, ResourceUnit.MB)), false);
+        assertEquals(memory.calculateResources(new Resource(null, ResourceUnit.MB)), false);
     }
 
     @Test
     void ValueItemValue_IsNegative_Return_False() {
-        assertEquals(memory.calculateResources((new AvailableResource(-1, ResourceUnit.MB))), false);
+        assertEquals(memory.calculateResources((new Resource(-1, ResourceUnit.MB))), false);
+
     }
 
 }

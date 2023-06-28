@@ -18,7 +18,7 @@ class ComputeResources implements ResourceTasks {
     public Map<String, ResourceCalculation> serviceMapper;
 
     @Override
-    public ResourceDetails isResourcesAvailable(Map<Process, AvailableResource> requestedResources) {
+    public ResourceDetails isResourcesAvailable(Map<Process, Resource> requestedResources) {
 
         List<ResourceStatus> resourceStatusList = new ArrayList<>();
 
@@ -27,11 +27,12 @@ class ComputeResources implements ResourceTasks {
         try {
             logger.info("Started the process to check for the availability of resources");
 
-            for (Map.Entry<Process, AvailableResource> entry : requestedResources.entrySet()) {
+            for (Map.Entry<Process, Resource> entry : requestedResources.entrySet()) {
                 MetricStatus metricStatus = serviceMapper.get(entry.getKey().getValue()).calculateResources(entry.getValue());
                 isEnoughResourcesAvailable &= metricStatus.available;
-                resourceStatusList.add(new ResourceStatus(metricStatus.available,entry.getKey().getValue(),metricStatus.availableResource));
+                resourceStatusList.add(new ResourceStatus(metricStatus.available, entry.getKey().getValue(), metricStatus.resource));
             }
+            System.out.println(new Resource(8,ResourceUnit.GB));
 
             logger.info(": Successfully computed the availability of resources");
 
@@ -52,9 +53,8 @@ class ComputeResources implements ResourceTasks {
     @Override
     public List<AvailableMetric> getAllResources() {
         List<AvailableMetric> availableMetricList = new ArrayList<>();
-        for (Map.Entry<String, ResourceCalculation> entry : serviceMapper.entrySet())
-        {
-            AvailableMetric availableMetric = new AvailableMetric(entry.getKey(),entry.getValue().getAvailableResource());
+        for (Map.Entry<String, ResourceCalculation> entry : serviceMapper.entrySet()) {
+            AvailableMetric availableMetric = new AvailableMetric(entry.getKey(), entry.getValue().getAvailableResource());
             availableMetricList.add(availableMetric);
         }
         return availableMetricList;
