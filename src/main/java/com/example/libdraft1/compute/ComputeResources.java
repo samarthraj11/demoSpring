@@ -18,13 +18,14 @@ class ComputeResources implements ResourceTasks {
     public Map<String, ResourceCalculation> serviceMapper;
 
     @Override
-    public ResourceDetails isResourcesAvailable(Map<Process, Resource> requestedResources) {
+    public ResourceDetails isResourcesAvailable(Map<Process, Resource> requestedResources) throws GlobalException {
 
         List<ResourceStatus> resourceStatusList = new ArrayList<>();
 
         Boolean isEnoughResourcesAvailable = true;
 
         try {
+
             logger.info("Started the process to check for the availability of resources");
 
             for (Map.Entry<Process, Resource> entry : requestedResources.entrySet()) {
@@ -32,17 +33,14 @@ class ComputeResources implements ResourceTasks {
                 isEnoughResourcesAvailable &= metricStatus.available;
                 resourceStatusList.add(new ResourceStatus(metricStatus.available, entry.getKey().getValue(), metricStatus.resource));
             }
-            System.out.println(new Resource(8,ResourceUnit.GB));
-
             logger.info(": Successfully computed the availability of resources");
+            return new ResourceDetails(isEnoughResourcesAvailable, resourceStatusList);
 
         } catch (Exception e) {
             e.printStackTrace();
-            isEnoughResourcesAvailable = false;
             logger.error("Unable to compute the resources, possibly due to service mapper begin null.");
+            throw new GlobalException("Unalbe to compute resources");
         }
-        System.out.println(new ResourceDetails(isEnoughResourcesAvailable, resourceStatusList));
-        return new ResourceDetails(isEnoughResourcesAvailable, resourceStatusList);
     }
 
     @Override
@@ -51,12 +49,19 @@ class ComputeResources implements ResourceTasks {
     }
 
     @Override
-    public List<AvailableMetric> getAllResources() {
-        List<AvailableMetric> availableMetricList = new ArrayList<>();
-        for (Map.Entry<String, ResourceCalculation> entry : serviceMapper.entrySet()) {
-            AvailableMetric availableMetric = new AvailableMetric(entry.getKey(), entry.getValue().getAvailableResource());
-            availableMetricList.add(availableMetric);
+    public List<AvailableMetric> getAllResources() throws GlobalException {
+        try {
+
+            List<AvailableMetric> availableMetricList = new ArrayList<>();
+            for (Map.Entry<String, ResourceCalculation> entry : serviceMapper.entrySet()) {
+                AvailableMetric availableMetric = new AvailableMetric(entry.getKey(), entry.getValue().getAvailableResource());
+                availableMetricList.add(availableMetric);
+            }
+            return availableMetricList;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new GlobalException("Unable to compute available resources");
         }
-        return availableMetricList;
     }
 }

@@ -1,9 +1,6 @@
 package com.example.libdraft1.metrics;
 
-import com.example.libdraft1.compute.MetricStatus;
-import com.example.libdraft1.compute.ResourceCalculation;
-import com.example.libdraft1.compute.ResourceUnit;
-import com.example.libdraft1.compute.Resource;
+import com.example.libdraft1.compute.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
@@ -17,21 +14,38 @@ import java.lang.management.MemoryUsage;
 class Memory implements ResourceCalculation {
 
     private final Logger logger = LoggerFactory.getLogger(Memory.class);
-    MemoryUsage memoryUsage = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
-    long availableMemory = (memoryUsage.getInit() - memoryUsage.getUsed()) / (1024 * 1024); // to convert bytes to MB
 
     @Override
-    public MetricStatus calculateResources(Resource resource) {
-        if (resource == null || resource.value == null || resource.value < 0) {
-            return new MetricStatus(false, resource);
+    public MetricStatus calculateResources(Resource resource) throws GlobalException {
+        try {
+
+            if (resource == null || resource.value == null || resource.value < 0) {
+                return new MetricStatus(false, resource);
+            }
+
+            MemoryUsage memoryUsage = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
+            long availableMemory = (memoryUsage.getInit() - memoryUsage.getUsed()) / (1024 * 1024); // to convert bytes to MB
+            return new MetricStatus(availableMemory >= resource.value, new Resource((int) availableMemory, resource.unit));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new GlobalException("Unable to compute heap memory");
         }
-        return new MetricStatus(availableMemory >= resource.value, new Resource((int) availableMemory, resource.unit));
 
     }
 
     @Override
-    public Resource getAvailableResource() {
-        return new Resource((int) availableMemory, ResourceUnit.MB);
+    public Resource getAvailableResource() throws GlobalException {
+        try {
+
+            MemoryUsage memoryUsage = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
+            long availableMemory = (memoryUsage.getInit() - memoryUsage.getUsed()) / (1024 * 1024); // to convert bytes to MB
+            return new Resource((int) availableMemory, ResourceUnit.MB);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new GlobalException("Unable to compute heap memory");
+        }
     }
 }
 
