@@ -1,7 +1,7 @@
 package com.example.libdraft1.metrics;
 
 
-import com.example.libdraft1.compute.GlobalException;
+import com.example.libdraft1.compute.ComputationException;
 import com.example.libdraft1.compute.MetricStatus;
 import com.example.libdraft1.compute.Resource;
 import com.example.libdraft1.compute.ResourceCalculation;
@@ -18,7 +18,7 @@ class Processors implements ResourceCalculation {
     private final Logger logger = LoggerFactory.getLogger(Processors.class);
 
     @Override
-    public MetricStatus calculateResources(Resource resource) throws GlobalException {
+    public MetricStatus calculateResources(Resource resource) throws ComputationException {
         try {
 
             if (resource == null || resource.value == null || resource.value < 0) {
@@ -29,18 +29,18 @@ class Processors implements ResourceCalculation {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new GlobalException("Unabl to compute available processors");
+            throw new ComputationException("Unable to compute available processors");
         }
     }
 
     @Override
-    public Resource getAvailableResource() throws GlobalException {
+    public Resource getAvailableResource() throws ComputationException {
         try {
             int availableProcessors = Runtime.getRuntime().availableProcessors();
             return new Resource(availableProcessors);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new GlobalException("Unable to compute available processors");
+            throw new ComputationException("Unable to compute available processors");
         }
     }
 }

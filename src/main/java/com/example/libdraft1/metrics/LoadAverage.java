@@ -1,9 +1,9 @@
 package com.example.libdraft1.metrics;
 
-import com.example.libdraft1.compute.GlobalException;
 import com.example.libdraft1.compute.MetricStatus;
 import com.example.libdraft1.compute.Resource;
 import com.example.libdraft1.compute.ResourceCalculation;
+//import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
@@ -18,22 +18,23 @@ class LoadAverage implements ResourceCalculation {
     private final Logger logger = LoggerFactory.getLogger(LoadAverage.class);
 
     @Override
-    public MetricStatus calculateResources(Resource resource) throws GlobalException {
+    public MetricStatus calculateResources(Resource resource) throws LoadAverageException{
+        if (resource == null || resource.value == null || resource.value < 0) {
+            return new MetricStatus(false, resource);
+        }
         try {
-            if (resource == null || resource.value == null || resource.value < 0) {
-                return new MetricStatus(false, resource);
-            }
             double currentLoadAvg = ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage();
+//            throw new Exception();
             return new MetricStatus(currentLoadAvg >= resource.value, new Resource((int) currentLoadAvg, resource.unit));
         } catch (Exception e)
         {
-            throw new GlobalException("Unable to compute current load average");
+            throw new LoadAverageException("Unable to compute current load average");
         }
     }
 
 
     @Override
-    public Resource getAvailableResource() throws GlobalException{
+    public Resource getAvailableResource() throws LoadAverageException{
         try {
 
             double currentLoadAvg = ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage();
@@ -41,7 +42,7 @@ class LoadAverage implements ResourceCalculation {
         } catch (Exception e)
         {
             e.printStackTrace();
-            throw new GlobalException("Unable to compute load average");
+            throw new LoadAverageException("Unable to compute load average");
         }
     }
 }

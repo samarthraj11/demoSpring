@@ -16,7 +16,7 @@ class Memory implements ResourceCalculation {
     private final Logger logger = LoggerFactory.getLogger(Memory.class);
 
     @Override
-    public MetricStatus calculateResources(Resource resource) throws GlobalException {
+    public MetricStatus calculateResources(Resource resource) throws ComputationException {
         try {
 
             if (resource == null || resource.value == null || resource.value < 0) {
@@ -29,13 +29,13 @@ class Memory implements ResourceCalculation {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new GlobalException("Unable to compute heap memory");
+            throw new ComputationException("Unable to compute heap memory");
         }
 
     }
 
     @Override
-    public Resource getAvailableResource() throws GlobalException {
+    public Resource getAvailableResource() throws ComputationException {
         try {
 
             MemoryUsage memoryUsage = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
@@ -44,7 +44,7 @@ class Memory implements ResourceCalculation {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new GlobalException("Unable to compute heap memory");
+            throw new ComputationException("Unable to compute heap memory");
         }
     }
 }

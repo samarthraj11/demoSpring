@@ -18,7 +18,7 @@ class ComputeResources implements ResourceTasks {
     public Map<String, ResourceCalculation> serviceMapper;
 
     @Override
-    public ResourceDetails isResourcesAvailable(Map<Process, Resource> requestedResources) throws GlobalException {
+    public ResourceDetails isResourcesAvailable(Map<Process, Resource> requestedResources) throws ComputationException {
 
         List<ResourceStatus> resourceStatusList = new ArrayList<>();
 
@@ -37,9 +37,9 @@ class ComputeResources implements ResourceTasks {
             return new ResourceDetails(isEnoughResourcesAvailable, resourceStatusList);
 
         } catch (Exception e) {
-            e.printStackTrace();
             logger.error("Unable to compute the resources, possibly due to service mapper begin null.");
-            throw new GlobalException("Unalbe to compute resources");
+            logger.info(e.getLocalizedMessage());
+            throw new ComputationException("Unable to compute resources" + e.getLocalizedMessage());
         }
     }
 
@@ -49,7 +49,7 @@ class ComputeResources implements ResourceTasks {
     }
 
     @Override
-    public List<AvailableMetric> getAllResources() throws GlobalException {
+    public List<AvailableMetric> getAllResources() throws ComputationException {
         try {
 
             List<AvailableMetric> availableMetricList = new ArrayList<>();
@@ -61,7 +61,7 @@ class ComputeResources implements ResourceTasks {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new GlobalException("Unable to compute available resources");
+            throw new ComputationException("Unable to compute available resources" + e.getLocalizedMessage());
         }
     }
 }

@@ -19,7 +19,7 @@ public interface ResourceTasks {
      * which consists a boolean stating true, if resources are present and false otherwise
      * And a list of AvailableMetrics consisting of process and its value.
      */
-    ResourceDetails isResourcesAvailable(Map<Process, Resource> requestedResources) throws GlobalException;
+    ResourceDetails isResourcesAvailable(Map<Process, Resource> requestedResources) throws ComputationException;
 
 
     /**
@@ -38,5 +38,5 @@ public interface ResourceTasks {
      * @return List of Available metrics which consists of process and
      * its value.
      */
-    List<AvailableMetric> getAllResources() throws GlobalException;
+    List<AvailableMetric> getAllResources() throws ComputationException;
 }

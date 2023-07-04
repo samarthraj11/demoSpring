@@ -1,6 +1,6 @@
 package com.example.libdraft1.metrics;
 
-import com.example.libdraft1.compute.GlobalException;
+import com.example.libdraft1.compute.ComputationException;
 import com.example.libdraft1.compute.Resource;
 import com.example.libdraft1.compute.ResourceUnit;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,27 +23,27 @@ class ProcessorsTest {
     }
 
     @Test
-    void resource_isNull_returnFalse() throws GlobalException {
+    void resource_isNull_returnFalse() throws ComputationException {
         assertEquals(processors.calculateResources(null).getAvailable(), false);
     }
 
     @Test
-    void resourceValue_isNull_returnFalse() throws GlobalException {
+    void resourceValue_isNull_returnFalse() throws ComputationException {
         assertEquals(processors.calculateResources(new Resource(null, ResourceUnit.MB)).getAvailable(), false);
     }
 
     @Test
-    void resourceValue_isNegative_returnFalse() throws GlobalException {
+    void resourceValue_isNegative_returnFalse() throws ComputationException {
         assertEquals(processors.calculateResources(new Resource(-1, ResourceUnit.GB)).getAvailable(), false);
     }
 
     @Test
-    void resourceValue_isMaxIntValue_returnFalse() throws GlobalException {
+    void resourceValue_isMaxIntValue_returnFalse() throws ComputationException {
         assertEquals(processors.calculateResources(new Resource(MAX_VALUE, ResourceUnit.GB)).getAvailable(), false);
     }
 
     @Test
-    void resource_ShouldBe_greaterThan_Zero() throws GlobalException {
+    void resource_ShouldBe_greaterThan_Zero() throws ComputationException {
         assertThat(processors.calculateResources(new Resource(1, ResourceUnit.GB)).getResource().getValue(), greaterThan(-1));
     }
 
